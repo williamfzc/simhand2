@@ -1,6 +1,7 @@
 package com.github.williamfzc.uioserver;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.LargeTest;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
@@ -40,12 +42,15 @@ public class StubTestCase {
 
         // Wait for launcher
         final String launcherPackage = mDevice.getLauncherPackageName();
+        Log.i("launch package name", launcherPackage);
         assertThat(launcherPackage, notNullValue());
         mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
                 LAUNCH_TIMEOUT);
 
+        // TODO as a server, don't need a specify app.
         // Launch the app
         Context context = InstrumentationRegistry.getContext();
+        // Get intent to target app
         final Intent intent = context.getPackageManager()
                 .getLaunchIntentForPackage(BASIC_SAMPLE_PACKAGE);
         // Clear out any previous instances
@@ -58,7 +63,16 @@ public class StubTestCase {
     }
 
     @Test
-    public void SayHello() {
-        Log.i("TESTONLY", "hello, android!");
+    @LargeTest
+    public void SayHello() throws InterruptedException {
+        while (true) {
+            Log.i("SERVER HEARTBEAT", "UIO server is alive :)");
+            Thread.sleep(500);
+        }
+    }
+
+    @After
+    public void stopServer() {
+        mDevice = null;
     }
 }
