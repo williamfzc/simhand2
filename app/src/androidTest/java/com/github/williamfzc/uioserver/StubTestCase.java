@@ -28,16 +28,15 @@ import static org.junit.Assert.assertThat;
 @SdkSuppress(minSdkVersion = 18)
 public class StubTestCase {
 
-    private static final String BASE_PACKAGE_NAME
-            = "com.github.williamfzc.uioserver";
+    private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.uioserver";
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String STRING_TO_BE_TYPED = "UiAutomator";
+    private static final int SERVER_PORT = 8080;
     private UiDevice mDevice;
     private APIServer mServer;
 
     private boolean runServer() {
         try {
-            mServer = new APIServer();
+            mServer = new APIServer(SERVER_PORT);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -87,7 +86,7 @@ public class StubTestCase {
 
     @Test
     @LargeTest
-    public void SayHello() throws InterruptedException {
+    public void KeepAlive() throws InterruptedException {
         while (true) {
             Log.i("SERVER HEARTBEAT", "UIO server is alive :)");
             Thread.sleep(5000);
