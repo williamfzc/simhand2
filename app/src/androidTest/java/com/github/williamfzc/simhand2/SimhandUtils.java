@@ -32,4 +32,25 @@ public class SimhandUtils {
         }
         return targetMap.get(targetFlag);
     }
+
+    public static boolean isNumeric(String s) {
+        if (s == null || "".equals(s)) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // TODO: temp design
+    public static Integer getResponseCode(boolean b) {
+        if (b) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }

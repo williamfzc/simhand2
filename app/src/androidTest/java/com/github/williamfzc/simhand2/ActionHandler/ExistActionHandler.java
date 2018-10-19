@@ -40,10 +40,19 @@ public class ExistActionHandler extends BaseActionHandler {
 
     public boolean apply(Map<String, String> paramsMap) {
         String widgetName = SimhandUtils.getParamFromMap(paramsMap, "widgetName", "");
+        String delayTime = SimhandUtils.getParamFromMap(paramsMap, "delayTime", "");
+        UiObject targetElement;
+
+        // invalid widget name
         if ("".equals(widgetName)) {
             return false;
         }
-        UiObject targetElement = Selector.findElementByText(mDevice, widgetName);
+        // need no delay
+        if (SimhandUtils.isNumeric(delayTime)) {
+            targetElement = Selector.waitElementByText(mDevice, widgetName, Integer.valueOf(delayTime));
+        } else {
+            targetElement = Selector.findElementByText(mDevice, widgetName);
+        }
         try {
             targetElement.exists();
         } catch (NullPointerException e) {

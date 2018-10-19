@@ -57,6 +57,9 @@ class SHResponse {
 public class APIServer extends NanoHTTPD {
     private UiDevice mDevice;
 
+    private String respStr;
+    private boolean actionResult;
+
     public APIServer(int port, UiDevice mDevice) throws IOException {
         super(port);
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
@@ -78,15 +81,20 @@ public class APIServer extends NanoHTTPD {
         // router configure
         switch (uri) {
             case "/api/action/click":
-                boolean clickResult = new ClickActionHandler(mDevice).apply(params);
-                String respStr = JSON.toJSONString(new SHResponse(0, "click result: " + clickResult));
-                Log.i("APIServer", respStr);
-                return newFixedLengthResponse(respStr);
+                actionResult = new ClickActionHandler(mDevice).apply(params);
+                respStr = JSON.toJSONString(new SHResponse(SimhandUtils.getResponseCode(actionResult), "click result: " + actionResult));
+                break;
+
             case "/api/action/exist":
-                boolean existResult = new ExistActionHandler(mDevice).apply(params);
-                return newFixedLengthResponse("action is exist, and result is: " + existResult);
+                actionResult = new ExistActionHandler(mDevice).apply(params);
+                respStr = JSON.toJSONString(new SHResponse(SimhandUtils.getResponseCode(actionResult), "exist result: " + actionResult));
+                break;
+
             default:
                 return newFixedLengthResponse("no action match");
         }
+
+        Log.i("APIServer", respStr);
+        return newFixedLengthResponse(respStr);
     }
 }

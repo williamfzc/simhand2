@@ -26,11 +26,26 @@ package com.github.williamfzc.simhand2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // TODO: control the server with cmd?
+//        String[] cmdList = {"su", "mkdir", "/sdcard/testonlyfzc", "\n"};
+//        ProcessBuilder processBuilder = new ProcessBuilder(cmdList);
+//        Process p = null;
+//        try {
+//            p = processBuilder.start();
+//            p.waitFor();
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//            if (p != null) {
+//                p.destroy();
+//            }
+//        }
     }
 }

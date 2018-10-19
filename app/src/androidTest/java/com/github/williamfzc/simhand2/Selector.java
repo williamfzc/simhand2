@@ -23,6 +23,7 @@ SOFTWARE.
  */
 package com.github.williamfzc.simhand2;
 
+import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
@@ -39,16 +40,6 @@ public class Selector {
     }
 
     public static UiObject waitElementByText(UiDevice mDevice, String targetStr, Integer delayTime) {
-        try {
-            Thread.sleep(delayTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return findElementByText(mDevice, targetStr);
-    }
-
-    public static UiObject findElementByID(UiDevice mDevice, String targetStr, Integer delayTime) {
         try {
             Thread.sleep(delayTime);
         } catch (InterruptedException e) {
