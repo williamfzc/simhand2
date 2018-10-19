@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver;
+package com.github.williamfzc.simhand2;
 
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
@@ -39,6 +39,16 @@ public class Selector {
     }
 
     public static UiObject waitElementByText(UiDevice mDevice, String targetStr, Integer delayTime) {
+        try {
+            Thread.sleep(delayTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return findElementByText(mDevice, targetStr);
+    }
+
+    public static UiObject findElementByID(UiDevice mDevice, String targetStr, Integer delayTime) {
         try {
             Thread.sleep(delayTime);
         } catch (InterruptedException e) {

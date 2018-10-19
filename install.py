@@ -4,8 +4,8 @@ import tempfile
 import structlog
 import subprocess
 
-GITHUB_BASE_DOWNLOAD_URL = r'https://github.com/williamfzc/UIOServer/releases/download'
-TARGET_VERSION = r'0.0.1'
+GITHUB_BASE_DOWNLOAD_URL = r'https://github.com/williamfzc/simhand2/releases/download'
+TARGET_VERSION = r'0.0.2'
 
 ANDROID_TEMP_DIR_PATH = '/data/local/tmp'
 MAIN_APP_NAME = r'app-debug.apk'
@@ -48,8 +48,8 @@ def install(target_apk_path):
 
 def start_server():
     base_cmd = ['adb', 'shell', 'am', 'instrument', '-w', '-r', '-e', 'debug', 'false', '-e', 'class',
-                'com.github.williamfzc.uioserver.StubTestCase',
-                'com.github.williamfzc.uioserver.test/android.support.test.runner.AndroidJUnitRunner']
+                'com.github.williamfzc.simhand2.StubTestCase',
+                'com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner']
     process = subprocess.Popen(base_cmd)
     return process
 

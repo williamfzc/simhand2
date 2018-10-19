@@ -21,13 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver;
+package com.github.williamfzc.simhand2;
 
 import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
 
-import com.github.williamfzc.uioserver.ActionHandler.ClickActionHandler;
-import com.github.williamfzc.uioserver.ActionHandler.ExistActionHandler;
+import com.github.williamfzc.simhand2.ActionHandler.ClickActionHandler;
+import com.github.williamfzc.simhand2.ActionHandler.ExistActionHandler;
 
 import java.io.IOException;
 import java.util.Map;

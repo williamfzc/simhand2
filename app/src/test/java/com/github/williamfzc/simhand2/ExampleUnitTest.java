@@ -1,4 +1,4 @@
-package com.github.williamfzc.uioserver;
+package com.github.williamfzc.simhand2;
 
 import org.junit.Test;
 

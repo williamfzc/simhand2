@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver;
+package com.github.williamfzc.simhand2;
 
 
 import org.junit.After;
@@ -51,7 +51,7 @@ import static org.junit.Assert.assertThat;
 @SdkSuppress(minSdkVersion = 18)
 public class StubTestCase {
 
-    private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.uioserver";
+    private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.simhand2";
     private static final int LAUNCH_TIMEOUT = 5000;
     private static final int SERVER_PORT = 8080;
     private UiDevice mDevice;
@@ -100,10 +100,10 @@ public class StubTestCase {
 
         // startup server
         if (runServer(mDevice)) {
-            Log.i("APIServer", "server already started");
+            Log.i("APIServer", "simhand already started");
         } else {
-            Log.e("APIServer", "server start failed");
-            throw new RuntimeException("server start up failed");
+            Log.e("APIServer", "simhand start failed");
+            throw new RuntimeException("simhand start up failed");
         }
     }
 
@@ -111,7 +111,7 @@ public class StubTestCase {
     @LargeTest
     public void KeepAlive() throws InterruptedException {
         while (true) {
-            Log.i("SERVER HEARTBEAT", "UIO server is alive :)");
+            Log.i("SERVER HEARTBEAT", "simhand is alive :)");
             Thread.sleep(5000);
         }
     }

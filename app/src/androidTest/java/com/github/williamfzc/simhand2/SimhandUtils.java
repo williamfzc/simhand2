@@ -21,11 +21,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver;
+package com.github.williamfzc.simhand2;
 
 import java.util.Map;
 
-public class UIOUtils {
+public class SimhandUtils {
     public static String getParamFromMap(Map<String, String> targetMap, String targetFlag, String defaultFlag) {
         if (!targetMap.containsKey(targetFlag)) {
             return defaultFlag;

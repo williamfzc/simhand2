@@ -21,35 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver.ActionHandler;
+package com.github.williamfzc.simhand2;
 
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-import com.github.williamfzc.uioserver.Selector;
-import com.github.williamfzc.uioserver.UIOUtils;
+public class MainActivity extends AppCompatActivity {
 
-import java.util.Map;
-
-public class ExistActionHandler extends BaseActionHandler {
-    public ExistActionHandler(UiDevice mDevice) {
-        super(mDevice);
-        Log.i("Exist Action", "on device: " + mDevice.getProductName());
-    }
-
-    public boolean apply(Map<String, String> paramsMap) {
-        String widgetName = UIOUtils.getParamFromMap(paramsMap, "widgetName", "");
-        if ("".equals(widgetName)) {
-            return false;
-        }
-        UiObject targetElement = Selector.findElementByText(mDevice, widgetName);
-        try {
-            targetElement.exists();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
     }
 }

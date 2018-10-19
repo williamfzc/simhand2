@@ -21,15 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
-package com.github.williamfzc.uioserver.ActionHandler;
+package com.github.williamfzc.simhand2.ActionHandler;
 
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.util.Log;
 
-import com.github.williamfzc.uioserver.Selector;
-import com.github.williamfzc.uioserver.UIOUtils;
+import com.github.williamfzc.simhand2.Selector;
+import com.github.williamfzc.simhand2.SimhandUtils;
 
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class ClickActionHandler extends BaseActionHandler {
     }
 
     public boolean apply(Map<String, String> paramsMap) {
-        String widgetName = UIOUtils.getParamFromMap(paramsMap, "widgetName", "");
+        String widgetName = SimhandUtils.getParamFromMap(paramsMap, "widgetName", "");
         if ("".equals(widgetName)) {
             return false;
         }
