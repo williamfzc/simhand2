@@ -24,6 +24,7 @@ SOFTWARE.
 package com.github.williamfzc.uioserver;
 
 import android.support.test.uiautomator.UiDevice;
+import android.util.Log;
 
 import com.github.williamfzc.uioserver.ActionHandler.ClickActionHandler;
 import com.github.williamfzc.uioserver.ActionHandler.ExistActionHandler;
@@ -34,7 +35,6 @@ import java.util.Map;
 import fi.iki.elonen.NanoHTTPD;
 
 public class APIServer extends NanoHTTPD {
-    private static final String ACTION_FLAG = "actionType";
     private UiDevice mDevice;
 
     public APIServer(int port, UiDevice mDevice) throws IOException {
@@ -45,14 +45,23 @@ public class APIServer extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        // get args
+        // if request url is:
+        // http://192.168.0.10:8080/abcd?actionType=exist&widgetName=Lea
+        // uri: /abcd
+        // params: {actionType=exist, widgetName=Lea}
+
         Map<String, String> params = session.getParms();
-        String currentActionType = UIOUtils.getParamFromMap(params, ACTION_FLAG, "invaild");
-        switch (currentActionType) {
-            case "click":
+        String uri = session.getUri();
+        Log.i("APIServer", "uri: " + uri);
+        Log.i("APIServer", "params: " + params.toString());
+
+        // router configure
+        // TODO response should be json?
+        switch (uri) {
+            case "/api/action/click":
                 boolean clickResult = new ClickActionHandler(mDevice).apply(params);
                 return newFixedLengthResponse("action is click, and result is: " + clickResult);
-            case "exist":
+            case "/api/action/exist":
                 boolean existResult = new ExistActionHandler(mDevice).apply(params);
                 return newFixedLengthResponse("action is exist, and result is: " + existResult);
             default:
