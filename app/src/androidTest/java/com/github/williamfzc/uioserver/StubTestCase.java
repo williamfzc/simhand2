@@ -34,9 +34,9 @@ public class StubTestCase {
     private UiDevice mDevice;
     private APIServer mServer;
 
-    private boolean runServer() {
+    private boolean runServer(UiDevice targetDevice) {
         try {
-            mServer = new APIServer(SERVER_PORT);
+            mServer = new APIServer(SERVER_PORT, targetDevice);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -76,7 +76,7 @@ public class StubTestCase {
                 LAUNCH_TIMEOUT);
 
         // startup server
-        if (runServer()) {
+        if (runServer(mDevice)) {
             Log.i("APIServer", "server already started");
         } else {
             Log.e("APIServer", "server start failed");
