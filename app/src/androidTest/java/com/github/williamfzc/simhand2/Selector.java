@@ -23,7 +23,6 @@ SOFTWARE.
  */
 package com.github.williamfzc.simhand2;
 
-import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;

@@ -40,8 +40,7 @@ public class ClickActionHandler extends BaseActionHandler {
     }
 
     public boolean apply(Map<String, String> paramsMap) {
-        String widgetName = SimhandUtils.getParamFromMap(paramsMap, "widgetName", "");
-        String delayTime = SimhandUtils.getParamFromMap(paramsMap, "delayTime", "");
+        initParams(paramsMap);
         UiObject targetElement;
 
         // invalid widget name
