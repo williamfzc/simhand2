@@ -26,6 +26,7 @@ package com.github.williamfzc.simhand2;
 import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.github.williamfzc.simhand2.ActionHandler.ClickActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.ExistActionHandler;
 
@@ -33,6 +34,25 @@ import java.io.IOException;
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
+
+// TODO need more info
+class SHResponse {
+    private Integer responseCode;
+    private String responseMsg;
+
+    public SHResponse(Integer code, String msg) {
+        this.responseCode = code;
+        this.responseMsg = msg;
+    }
+
+    public Integer getResponseCode() {
+        return this.responseCode;
+    }
+
+    public String getResponseMsg() {
+        return this.responseMsg;
+    }
+}
 
 public class APIServer extends NanoHTTPD {
     private UiDevice mDevice;
@@ -56,11 +76,12 @@ public class APIServer extends NanoHTTPD {
         Log.i("APIServer", "params: " + params.toString());
 
         // router configure
-        // TODO response should be json?
         switch (uri) {
             case "/api/action/click":
                 boolean clickResult = new ClickActionHandler(mDevice).apply(params);
-                return newFixedLengthResponse("action is click, and result is: " + clickResult);
+                String respStr = JSON.toJSONString(new SHResponse(0, "click result: " + clickResult));
+                Log.i("APIServer", respStr);
+                return newFixedLengthResponse(respStr);
             case "/api/action/exist":
                 boolean existResult = new ExistActionHandler(mDevice).apply(params);
                 return newFixedLengthResponse("action is exist, and result is: " + existResult);
