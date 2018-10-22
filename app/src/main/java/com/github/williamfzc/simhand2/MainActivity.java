@@ -23,16 +23,24 @@ SOFTWARE.
  */
 package com.github.williamfzc.simhand2;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import java.io.IOException;
+import java.lang.ref.WeakReference;
+
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // show if is ready
+        Toast.makeText(this, "simhand is working :)", Toast.LENGTH_SHORT).show();
 
         // TODO: control the server with cmd?
 //        String[] cmdList = {"su", "mkdir", "/sdcard/testonlyfzc", "\n"};

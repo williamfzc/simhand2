@@ -30,22 +30,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.Until;
 import android.util.Log;
 
 import java.io.IOException;
-
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -53,7 +46,7 @@ import static org.junit.Assert.assertThat;
 public class StubTestCase {
 
     private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.simhand2";
-    private static final int LAUNCH_TIMEOUT = 5000;
+    private static final String FIRST_PAGE = "MainActivity";
     private static final int SERVER_PORT = 8080;
     private UiDevice mDevice;
     private APIServer mServer;
@@ -80,6 +73,9 @@ public class StubTestCase {
             // ignore and record
             e.printStackTrace();
         }
+
+        // Start main page
+        launchFront();
         mDevice.pressHome();
 
         // startup server
@@ -106,5 +102,19 @@ public class StubTestCase {
             mServer.stop();
         }
         mDevice = null;
+    }
+
+    private void launchFront() {
+        launchPackage(BASE_PACKAGE_NAME, FIRST_PAGE);
+    }
+
+    private void launchPackage(String targetPackage, String targetActivity) {
+        // todo: why the way uses intent didn't work???
+        try {
+            mDevice.executeShellCommand("am start -n " + targetPackage + "/." + targetActivity);
+        } catch (IOException e) {
+            // ignore
+            e.printStackTrace();
+        }
     }
 }
