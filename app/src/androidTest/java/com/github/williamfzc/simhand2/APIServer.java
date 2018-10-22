@@ -39,10 +39,12 @@ import fi.iki.elonen.NanoHTTPD;
 class SHResponse {
     private Integer responseCode;
     private String responseMsg;
+    private String requestType;
 
-    public SHResponse(Integer code, String msg) {
+    public SHResponse(Integer code, String msg, String requestType) {
         this.responseCode = code;
         this.responseMsg = msg;
+        this.requestType = requestType;
     }
 
     public Integer getResponseCode() {
@@ -51,6 +53,14 @@ class SHResponse {
 
     public String getResponseMsg() {
         return this.responseMsg;
+    }
+
+    public String getRequestType() {
+        return this.requestType;
+    }
+
+    public String toJsonString() {
+        return JSON.toJSONString(this);
     }
 }
 
@@ -82,16 +92,28 @@ public class APIServer extends NanoHTTPD {
         switch (uri) {
             case "/api/action/click":
                 actionResult = new ClickActionHandler(mDevice).apply(params);
-                respStr = JSON.toJSONString(new SHResponse(SimhandUtils.getResponseCode(actionResult), "click result: " + actionResult));
+                respStr = new SHResponse(
+                        SimhandUtils.getResponseCode(actionResult),
+                        "" + actionResult,
+                        "click"
+                ).toJsonString();
                 break;
 
             case "/api/action/exist":
                 actionResult = new ExistActionHandler(mDevice).apply(params);
-                respStr = JSON.toJSONString(new SHResponse(SimhandUtils.getResponseCode(actionResult), "exist result: " + actionResult));
+                respStr = new SHResponse(
+                        SimhandUtils.getResponseCode(actionResult),
+                        "" + actionResult,
+                        "exist"
+                ).toJsonString();
                 break;
 
             default:
-                return newFixedLengthResponse("no action match");
+                respStr = new SHResponse(
+                        SimhandUtils.getResponseCode(false),
+                        "no action match",
+                        uri
+                ).toJsonString();
         }
 
         Log.i("APIServer", respStr);
