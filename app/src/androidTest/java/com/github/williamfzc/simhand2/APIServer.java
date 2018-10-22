@@ -35,7 +35,7 @@ import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 
-// TODO need more info
+
 class SHResponse {
     private Integer responseCode;
     private String responseMsg;

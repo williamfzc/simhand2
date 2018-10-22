@@ -32,6 +32,7 @@ import org.junit.runner.RunWith;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.SdkSuppress;
@@ -68,35 +69,18 @@ public class StubTestCase {
     }
 
     @Before
-    public void startMainActivityFromHomeScreen() {
+    public void initDevice() {
         // Initialize UiDevice instance
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
         // Start from the home screen
+        try {
+            mDevice.wakeUp();
+        } catch (RemoteException e) {
+            // ignore and record
+            e.printStackTrace();
+        }
         mDevice.pressHome();
-
-        // Wait for launcher
-        final String launcherPackage = mDevice.getLauncherPackageName();
-        Log.i("launch package name", launcherPackage);
-        assertThat(launcherPackage, notNullValue());
-        mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
-                LAUNCH_TIMEOUT);
-
-        // TODO as a server, don't need a specify app.
-        // Launch the app
-        Context context = InstrumentationRegistry.getContext();
-
-        // Get intent to target app
-        final Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(BASE_PACKAGE_NAME);
-
-        // Clear out any previous instances, and new one
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
-        // Wait for the app to appear
-        mDevice.wait(Until.hasObject(By.pkg(BASE_PACKAGE_NAME).depth(0)),
-                LAUNCH_TIMEOUT);
 
         // startup server
         if (runServer(mDevice)) {
@@ -111,7 +95,7 @@ public class StubTestCase {
     @LargeTest
     public void KeepAlive() throws InterruptedException {
         while (true) {
-            Log.i("SERVER HEARTBEAT", "simhand is alive :)");
+            Log.i("APIServer HEARTBEAT", "simhand is alive :)");
             Thread.sleep(5000);
         }
     }
