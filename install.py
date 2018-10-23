@@ -4,11 +4,13 @@ import tempfile
 import structlog
 import subprocess
 
-// TODO check if is installed ( need download or not )
-// TODO github release download failed sometimes
+# TODO check if is installed ( need download or not )
+# TODO github release download failed sometimes
 
 GITHUB_BASE_DOWNLOAD_URL = r'https://github.com/williamfzc/simhand2/releases/download'
-TARGET_VERSION = r'0.0.2'
+
+# use github version tag, eg: v0.1.0
+TARGET_VERSION = r'v0.1.0'
 
 ANDROID_TEMP_DIR_PATH = '/data/local/tmp'
 MAIN_APP_NAME = r'app-debug.apk'
