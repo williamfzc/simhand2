@@ -74,6 +74,15 @@ public class StubTestCase {
             e.printStackTrace();
         }
 
+        // grant permission ( > 6.0
+        try {
+            mDevice.executeShellCommand("pm grant " + BASE_PACKAGE_NAME + " android.permission.READ_EXTERNAL_STORAGE");
+            mDevice.executeShellCommand("pm grant " + BASE_PACKAGE_NAME + " android.permission.WRITE_EXTERNAL_STORAGE");
+        } catch (IOException e) {
+            // ignore and record
+            e.printStackTrace();
+        }
+
         // Start main page
         launchFront();
         mDevice.pressHome();
