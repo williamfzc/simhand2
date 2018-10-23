@@ -125,31 +125,7 @@ public class APIServer extends NanoHTTPD {
                 break;
 
             case "/api/screenshot":
-                // TODO compress too slow ( should replace with minicap?
-                String tempPngPath = "/sdcard/simhand_temp.png";
-                File tempPngFile = new File(tempPngPath);
-
-                // clean old picture
-                try {
-                    tempPngFile.delete();
-                    tempPngFile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                // small size picture is enough
-                // but these args actually does not work!
-                mDevice.takeScreenshot(tempPngFile, 0.01f, 10);
-
-                // compress
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 6;
-                Bitmap bitmap = BitmapFactory.decodeFile(tempPngPath, options);
-
-                ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 1, tempStream);
-                InputStream targetStream = new ByteArrayInputStream(tempStream.toByteArray());
-                return newFixedLengthResponse(Response.Status.OK, "image/png", targetStream, tempPngFile.getTotalSpace());
+                return new ScreenshotHandler(mDevice).getScreenshot();
 
             default:
                 respStr = new SHResponse(
