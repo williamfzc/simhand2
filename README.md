@@ -47,4 +47,36 @@ http://127.0.0.1:8080/api/action/click?widgetName=camera
 
 ## API Document
 
-Still building.
+Still building. Offer what we actually need only.
+
+### Screen Shot
+
+screenshot (get image/png)
+
+```bash
+http://127.0.0.1:8080/api/screenshot
+```
+
+### Action
+
+click
+
+click element which text == 'camera'
+
+```bash
+http://127.0.0.1:8080/api/action/click?widgetName=camera
+```
+
+exist
+
+check if element which text == 'camera' existed
+
+```bash
+http://127.0.0.1:8080/api/action/exist?widgetName=camera
+```
+
+### System
+
+```bash
+http://127.0.0.1:8080/api/action/system?actionName=turnOnAirplaneMode
+```
