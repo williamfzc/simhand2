@@ -59,7 +59,7 @@ http://127.0.0.1:8080/api/screenshot
 
 ### Action
 
-click
+#### click
 
 click element which text == 'camera'
 
@@ -67,7 +67,7 @@ click element which text == 'camera'
 http://127.0.0.1:8080/api/action/click?widgetName=camera
 ```
 
-exist
+#### exist
 
 check if element which text == 'camera' existed
 
@@ -75,7 +75,7 @@ check if element which text == 'camera' existed
 http://127.0.0.1:8080/api/action/exist?widgetName=camera
 ```
 
-### System
+#### system
 
 ```bash
 http://127.0.0.1:8080/api/action/system?actionName=turnOnAirplaneMode
