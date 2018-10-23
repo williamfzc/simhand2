@@ -36,6 +36,7 @@ public abstract class BaseActionHandler {
     // all possible args
     String widgetName;
     String delayTime;
+    String actionName;
 
     BaseActionHandler(UiDevice mDevice) {
         this.mDevice = mDevice;
@@ -44,6 +45,7 @@ public abstract class BaseActionHandler {
     void initParams(Map<String, String> targetMap) {
         this.widgetName = SimhandUtils.getParamFromMap(targetMap, "widgetName", "");
         this.delayTime = SimhandUtils.getParamFromMap(targetMap, "delayTime", "");
+        this.actionName = SimhandUtils.getParamFromMap(targetMap, "actionName", "");
     }
 
     public abstract boolean apply(Map<String, String> paramsMap);

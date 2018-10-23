@@ -29,6 +29,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.github.williamfzc.simhand2.ActionHandler.ClickActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.ExistActionHandler;
+import com.github.williamfzc.simhand2.ActionHandler.SystemActionHandler;
 
 import java.io.IOException;
 import java.util.Map;
@@ -105,6 +106,15 @@ public class APIServer extends NanoHTTPD {
                         SimhandUtils.getResponseCode(actionResult),
                         "" + actionResult,
                         "exist"
+                ).toJsonString();
+                break;
+
+            case "/api/action/system":
+                actionResult = new SystemActionHandler(mDevice).apply(params);
+                respStr = new SHResponse(
+                        SimhandUtils.getResponseCode(actionResult),
+                        "" + actionResult,
+                        "system"
                 ).toJsonString();
                 break;
 
