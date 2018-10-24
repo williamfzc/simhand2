@@ -27,36 +27,42 @@ import android.os.Bundle;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
+import java.net.InetAddress;
+
+/*
+load arguments from command at the beginning
+ */
 public class SHInstrumentationTestRunner extends AndroidJUnitRunner {
     private static final String TAG = "SHRunner";
 
-    // default to 8080
-    private static String port;
-    // IP address (PC which connected to android
-    private static String parentIP;
-
-    public static String getPort() {
-        if (port == null) {
-            return "8080";
-        }
-        return port;
-    }
-
-    public static String getParentIP() {
-        if (parentIP == null) {
-            return "127.0.0.1";
-        }
-        return parentIP;
-    }
-
     @Override
     public void onCreate(Bundle arguments) {
-        if (arguments != null) {
-            port = arguments.getString("port");
-            parentIP = arguments.getString("parentIP");
-        }
-        Log.i(TAG, "port: " + port);
-        Log.i(TAG, "parent pc's ip: " + parentIP);
+        SHGlobal.port = parsePort(arguments);
+        SHGlobal.parentIP = parsePCAddress(arguments);
+        SHGlobal.localIP = SHUtils.getLocalIP();
+
+        Log.i(TAG, "port: " + SHGlobal.port);
+        Log.i(TAG, "local address: " + SHGlobal.localIP);
+        Log.i(TAG, "pc address: " + SHGlobal.parentIP);
+
         super.onCreate(arguments);
+    }
+
+    private Integer parsePort(Bundle arguments) {
+        String port = arguments.getString("port");
+        if (port != null && !"".equals(port)) {
+            return Integer.valueOf(port);
+        }
+        // default
+        return 8080;
+    }
+
+    private String parsePCAddress(Bundle arguments) {
+        String pcAddress = arguments.getString("pc");
+        if (pcAddress != null && !"".equals(pcAddress)) {
+            return pcAddress;
+        }
+        // default
+        return "";
     }
 }

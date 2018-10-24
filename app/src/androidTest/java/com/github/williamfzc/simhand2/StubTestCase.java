@@ -41,11 +41,13 @@ import android.util.Log;
 import java.io.IOException;
 
 
+/*
+- keep alive, to support long-time detect
+- init device and server instances, and offer them to other modules
+ */
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = 18)
 public class StubTestCase {
-    private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.simhand2";
-    private static final String FIRST_PAGE = "MainActivity";
     private static final String TAG = "StubTestCase";
     private int serverPort;
     private String parentIP;
@@ -64,9 +66,6 @@ public class StubTestCase {
 
     @Before
     public void initDevice() {
-        serverPort = Integer.valueOf(SHInstrumentationTestRunner.getPort());
-        parentIP = SHInstrumentationTestRunner.getParentIP();
-
         // Initialize UiDevice instance
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
@@ -80,8 +79,8 @@ public class StubTestCase {
 
         // grant permission ( > 6.0
         try {
-            mDevice.executeShellCommand("pm grant " + BASE_PACKAGE_NAME + " android.permission.READ_EXTERNAL_STORAGE");
-            mDevice.executeShellCommand("pm grant " + BASE_PACKAGE_NAME + " android.permission.WRITE_EXTERNAL_STORAGE");
+            mDevice.executeShellCommand("pm grant " + SHGlobal.BASE_PACKAGE_NAME + " android.permission.READ_EXTERNAL_STORAGE");
+            mDevice.executeShellCommand("pm grant " + SHGlobal.BASE_PACKAGE_NAME + " android.permission.WRITE_EXTERNAL_STORAGE");
         } catch (IOException e) {
             // ignore and record
             e.printStackTrace();
@@ -102,7 +101,7 @@ public class StubTestCase {
 
     @Test
     @LargeTest
-    public void KeepAlive() throws InterruptedException {
+    public void keepAlive() throws InterruptedException {
         while (true) {
             Log.i(TAG, "simhand is alive :)");
             Thread.sleep(5000);
@@ -118,7 +117,7 @@ public class StubTestCase {
     }
 
     private void launchFront() {
-        launchPackage(BASE_PACKAGE_NAME, FIRST_PAGE);
+        launchPackage(SHGlobal.BASE_PACKAGE_NAME, SHGlobal.FIRST_PAGE);
     }
 
     private void launchPackage(String targetPackage, String targetActivity) {
