@@ -29,10 +29,12 @@ import android.support.test.uiautomator.UiSelector;
 import android.util.Log;
 
 public class Selector {
+    private static final String TAG = "UISelector";
+
     public static UiObject findElementByText(UiDevice mDevice, String targetStr) {
         UiObject targetObject = mDevice.findObject(new UiSelector().text(targetStr));
         if (!targetObject.exists()) {
-            Log.w("UI_SELECTOR", "object " + targetStr + " not found");
+            Log.w(TAG, "object " + targetStr + " not found");
             return null;
         }
         return targetObject;

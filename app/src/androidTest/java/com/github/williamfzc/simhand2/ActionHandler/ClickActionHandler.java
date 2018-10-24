@@ -34,9 +34,11 @@ import com.github.williamfzc.simhand2.SHUtils;
 import java.util.Map;
 
 public class ClickActionHandler extends BaseActionHandler {
+    private static final String TAG = "ClickActionHandler";
+
     public ClickActionHandler(UiDevice mDevice) {
         super(mDevice);
-        Log.i("Click Action", "on device: " + mDevice.getProductName());
+        Log.i(TAG, "on device: " + mDevice.getProductName());
     }
 
     public boolean apply(Map<String, String> paramsMap) {

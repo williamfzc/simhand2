@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public class SystemActionHandler extends BaseActionHandler {
+    private static final String TAG = "SystemActionHandler";
+
     public SystemActionHandler(UiDevice mDevice) {
         super(mDevice);
-        Log.i("Click Action", "on device: " + mDevice.getProductName());
+        Log.i(TAG, "on device: " + mDevice.getProductName());
     }
 
     @Override
@@ -33,10 +35,10 @@ public class SystemActionHandler extends BaseActionHandler {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Log.i("SystemAction", "result of " + actionName + ": " + e.toString());
+            Log.i(TAG, "result of " + actionName + ": " + e.toString());
             return false;
         }
-        Log.i("SystemAction", "result of " + actionName + ": " + execResult);
+        Log.i(TAG, "result of " + actionName + ": " + execResult);
         return true;
     }
 

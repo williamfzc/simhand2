@@ -66,6 +66,7 @@ class SHResponse {
 }
 
 public class APIServer extends NanoHTTPD {
+    private static final String TAG = "APIServer";
     private UiDevice mDevice;
 
     private String respStr;
@@ -86,8 +87,8 @@ public class APIServer extends NanoHTTPD {
 
         Map<String, String> params = session.getParms();
         String uri = session.getUri();
-        Log.i("APIServer", "uri: " + uri);
-        Log.i("APIServer", "params: " + params.toString());
+        Log.i(TAG, "uri: " + uri);
+        Log.i(TAG, "params: " + params.toString());
 
         // router configure
         switch (uri) {
@@ -129,7 +130,7 @@ public class APIServer extends NanoHTTPD {
                 ).toJsonString();
         }
 
-        Log.i("APIServer", respStr);
+        Log.i(TAG, respStr);
         return newFixedLengthResponse(respStr);
     }
 }

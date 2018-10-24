@@ -33,9 +33,11 @@ import com.github.williamfzc.simhand2.SHUtils;
 import java.util.Map;
 
 public class ExistActionHandler extends BaseActionHandler {
+    private static final String TAG = "ExistActionHandler";
+
     public ExistActionHandler(UiDevice mDevice) {
         super(mDevice);
-        Log.i("Exist Action", "on device: " + mDevice.getProductName());
+        Log.i(TAG, "on device: " + mDevice.getProductName());
     }
 
     public boolean apply(Map<String, String> paramsMap) {
