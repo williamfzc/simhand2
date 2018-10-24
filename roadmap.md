@@ -31,6 +31,22 @@
 - uiautomator封装库不够稳定。个人感觉为了提供python wrapper还是牺牲了一些稳定性，在长时间待机与保活上有些瑕疵
 - 设备内部应用如果希望操作本地界面需要通过PC转发请求，效率较低
 
-### simhand2
+### [simhand2](https://github.com/williamfzc/simhand2)
 
-updating ...
+结合上面的经验，需要解决的问题有：
+
+- 稳定（长时间保活）
+- UI操作能力（设备内部与外部）
+- 效率（合理的响应速度）
+
+#### 原理
+
+TODO
+
+#### 响应流程图
+
+TODO
+
+#### 方向
+
+TODO
