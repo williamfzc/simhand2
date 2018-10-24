@@ -2,20 +2,20 @@
 
 > UI OPERATOR SERVER ON ANDROID
 
-## 原理
+## How
 
-- 基于uiautomator
-- 通过提供的restful API，直接通过http请求操作设备
+- based on uiautomator
+- with offered restful API, operate android device directly
 
-## 安装
+## Install
 
-### 使用安装脚本
+### Use install script
 
-- 连接设备
-- 运行`install.py`
-- 确保python3已安装，并安装相关依赖包
+- Connect your device and run `install.py`. 
+- Make sure python3 and adb work well. some requirement may needed.
+- And, your server is on :)
 
-### 手动
+### Manual 
 
 Open this project with android studio, and run `StubTestCase`.
 
@@ -34,7 +34,7 @@ $ adb shell pm install -t -r "/data/local/tmp/com.github.williamfzc.simhand2.tes
 $ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner
 ```
 
-## 使用
+## Usage
 
 When need UI communication, Just send a http request. 
 
@@ -50,11 +50,11 @@ Also, request from android inside would work well:
 http://127.0.0.1:8080/api/action/click?widgetName=camera
 ```
 
-## 相关项目
+## Relative work
 
 [simhand2 manager](https://github.com/williamfzc/simhand2_manager)
 
-## API 文档
+## API Document
 
 Still building. Offer what we actually need only.
 
