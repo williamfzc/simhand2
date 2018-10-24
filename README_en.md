@@ -31,7 +31,7 @@ $ adb push F:\simhand2\app\build\outputs\apk\androidTest\debug\app-debug-android
 $ adb shell pm install -t -r "/data/local/tmp/com.github.williamfzc.simhand2.test"
 
 // Run Case
-$ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner
+$ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/com.github.williamfzc.simhand2.SHInstrumentationTestRunner
 ```
 
 ## Usage

@@ -7,6 +7,8 @@
 - 基于uiautomator
 - 通过提供的restful API，直接通过http请求操作设备
 
+View [RoadMap](roadmap.md) for detail.
+
 ## 安装
 
 ### 使用安装脚本
@@ -14,37 +16,38 @@
 - 连接设备
 - 运行`install.py`
 - 确保python3已安装，并安装相关依赖包
+- 脚本会将apk都安装好并启动服务
 
 ### 手动
 
-Open this project with android studio, and run `StubTestCase`.
+将项目clone到本地，用android studio打开后，运行`StubTestCase`。
 
-Or follow steps below:
+或者手动从release上下载`app-debug.apk`与`app-debug-androidTest.apk`并安装到手机上：
 
 ```
-// Push Main Apk
-$ adb push F:\simhand2\app\build\outputs\apk\debug\app-debug.apk /data/local/tmp/com.github.williamfzc.simhand2
-$ adb shell pm install -t -r "/data/local/tmp/com.github.williamfzc.simhand2"
+adb install -t -r app-debug.apk
+adb install -t -r app-debug-androidTest.apk
+```
 
-// Push TestCase Apk
-$ adb push F:\simhand2\app\build\outputs\apk\androidTest\debug\app-debug-androidTest.apk /data/local/tmp/com.github.williamfzc.simhand2.test
-$ adb shell pm install -t -r "/data/local/tmp/com.github.williamfzc.simhand2.test"
+安装后需要自行启动：
 
+```
 // Run Case
-$ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner
+$ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/com.github.williamfzc.simhand2.SHInstrumentationTestRunner
 ```
 
-## 使用
+## 使用示例
 
-When need UI communication, Just send a http request. 
+当需要UI交互请求时，只需要对其发送http请求即可。
 
-Click widget which named 'camera':
+例如，你希望点击当前页面上text为Camera的元素:
 
 ```
+// ip 地址根据实际修改
 http://192.168.0.10:8080/api/action/click?widgetName=camera
 ```
 
-Also, request from android inside would work well:
+当然，它也能够被其他应用从内部调用：
 
 ```
 http://127.0.0.1:8080/api/action/click?widgetName=camera
@@ -56,19 +59,15 @@ http://127.0.0.1:8080/api/action/click?widgetName=camera
 
 ## API 文档
 
-Still building. Offer what we actually need only.
-
-### Screen Shot
-
-screenshot (get image/png)
+### 截图 (get image/png)
 
 ```bash
 http://127.0.0.1:8080/api/screenshot
 ```
 
-### Action
+### 操作
 
-#### click
+#### 点击
 
 click element which text == 'camera'
 
@@ -76,7 +75,7 @@ click element which text == 'camera'
 http://127.0.0.1:8080/api/action/click?widgetName=camera
 ```
 
-#### exist
+#### 存在
 
 check if element which text == 'camera' existed
 
@@ -84,8 +83,10 @@ check if element which text == 'camera' existed
 http://127.0.0.1:8080/api/action/exist?widgetName=camera
 ```
 
-#### system
+#### 系统
 
 ```bash
 http://127.0.0.1:8080/api/action/system?actionName=turnOnAirplaneMode
 ```
+
+...
