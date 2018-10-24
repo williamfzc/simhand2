@@ -23,8 +23,6 @@ SOFTWARE.
  */
 package com.github.williamfzc.simhand2;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
 
@@ -33,11 +31,7 @@ import com.github.williamfzc.simhand2.ActionHandler.ClickActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.ExistActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.SystemActionHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
@@ -100,7 +94,7 @@ public class APIServer extends NanoHTTPD {
             case "/api/action/click":
                 actionResult = new ClickActionHandler(mDevice).apply(params);
                 respStr = new SHResponse(
-                        SimhandUtils.getResponseCode(actionResult),
+                        SHUtils.getResponseCode(actionResult),
                         "" + actionResult,
                         "click"
                 ).toJsonString();
@@ -109,7 +103,7 @@ public class APIServer extends NanoHTTPD {
             case "/api/action/exist":
                 actionResult = new ExistActionHandler(mDevice).apply(params);
                 respStr = new SHResponse(
-                        SimhandUtils.getResponseCode(actionResult),
+                        SHUtils.getResponseCode(actionResult),
                         "" + actionResult,
                         "exist"
                 ).toJsonString();
@@ -118,7 +112,7 @@ public class APIServer extends NanoHTTPD {
             case "/api/action/system":
                 actionResult = new SystemActionHandler(mDevice).apply(params);
                 respStr = new SHResponse(
-                        SimhandUtils.getResponseCode(actionResult),
+                        SHUtils.getResponseCode(actionResult),
                         "" + actionResult,
                         "system"
                 ).toJsonString();
@@ -129,7 +123,7 @@ public class APIServer extends NanoHTTPD {
 
             default:
                 respStr = new SHResponse(
-                        SimhandUtils.getResponseCode(false),
+                        SHUtils.getResponseCode(false),
                         "no action match",
                         uri
                 ).toJsonString();

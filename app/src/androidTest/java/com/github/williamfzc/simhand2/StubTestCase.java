@@ -44,16 +44,17 @@ import java.io.IOException;
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = 18)
 public class StubTestCase {
-
     private static final String BASE_PACKAGE_NAME = "com.github.williamfzc.simhand2";
     private static final String FIRST_PAGE = "MainActivity";
-    private static final int SERVER_PORT = 8080;
+    private static final String TAG = "StubTestCase";
+    private int serverPort;
+    private String parentIP;
     private UiDevice mDevice;
     private APIServer mServer;
 
     private boolean runServer(UiDevice targetDevice) {
         try {
-            mServer = new APIServer(SERVER_PORT, targetDevice);
+            mServer = new APIServer(serverPort, targetDevice);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -63,6 +64,9 @@ public class StubTestCase {
 
     @Before
     public void initDevice() {
+        serverPort = Integer.valueOf(SHInstrumentationTestRunner.getPort());
+        parentIP = SHInstrumentationTestRunner.getParentIP();
+
         // Initialize UiDevice instance
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
@@ -89,9 +93,9 @@ public class StubTestCase {
 
         // startup server
         if (runServer(mDevice)) {
-            Log.i("APIServer", "simhand already started");
+            Log.i(TAG, "simhand already started on " + serverPort);
         } else {
-            Log.e("APIServer", "simhand start failed");
+            Log.e(TAG, "simhand start failed");
             throw new RuntimeException("simhand start up failed");
         }
     }
@@ -100,7 +104,7 @@ public class StubTestCase {
     @LargeTest
     public void KeepAlive() throws InterruptedException {
         while (true) {
-            Log.i("APIServer HEARTBEAT", "simhand is alive :)");
+            Log.i(TAG, "simhand is alive :)");
             Thread.sleep(5000);
         }
     }

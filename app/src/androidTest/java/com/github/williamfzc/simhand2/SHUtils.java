@@ -25,7 +25,7 @@ package com.github.williamfzc.simhand2;
 
 import java.util.Map;
 
-public class SimhandUtils {
+public class SHUtils {
     public static String getParamFromMap(Map<String, String> targetMap, String targetFlag, String defaultFlag) {
         if (!targetMap.containsKey(targetFlag)) {
             return defaultFlag;

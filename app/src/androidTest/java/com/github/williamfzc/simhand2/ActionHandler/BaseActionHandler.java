@@ -26,7 +26,7 @@ package com.github.williamfzc.simhand2.ActionHandler;
 
 import android.support.test.uiautomator.UiDevice;
 
-import com.github.williamfzc.simhand2.SimhandUtils;
+import com.github.williamfzc.simhand2.SHUtils;
 
 import java.util.Map;
 
@@ -43,9 +43,9 @@ public abstract class BaseActionHandler {
     }
 
     void initParams(Map<String, String> targetMap) {
-        this.widgetName = SimhandUtils.getParamFromMap(targetMap, "widgetName", "");
-        this.delayTime = SimhandUtils.getParamFromMap(targetMap, "delayTime", "");
-        this.actionName = SimhandUtils.getParamFromMap(targetMap, "actionName", "");
+        this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetName", "");
+        this.delayTime = SHUtils.getParamFromMap(targetMap, "delayTime", "");
+        this.actionName = SHUtils.getParamFromMap(targetMap, "actionName", "");
     }
 
     public abstract boolean apply(Map<String, String> paramsMap);

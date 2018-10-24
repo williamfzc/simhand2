@@ -28,7 +28,7 @@ import android.support.test.uiautomator.UiObject;
 import android.util.Log;
 
 import com.github.williamfzc.simhand2.Selector;
-import com.github.williamfzc.simhand2.SimhandUtils;
+import com.github.williamfzc.simhand2.SHUtils;
 
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class ExistActionHandler extends BaseActionHandler {
             return false;
         }
         // need no delay
-        if (SimhandUtils.isNumeric(delayTime)) {
+        if (SHUtils.isNumeric(delayTime)) {
             targetElement = Selector.waitElementByText(mDevice, widgetName, Integer.valueOf(delayTime));
         } else {
             targetElement = Selector.findElementByText(mDevice, widgetName);
