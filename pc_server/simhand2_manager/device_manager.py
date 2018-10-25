@@ -1,6 +1,8 @@
 from .global_namespace import *
 import subprocess
 import json
+import time
+import threading
 
 
 SIMHAND_INIT_CMD = (
@@ -18,6 +20,9 @@ SIMHAND_INIT_CMD = (
     local_address=LOCAL_ADDRESS,
     pc_port=PC_SERVER_PORT,
 )
+
+# device storage
+_device_dict = dict()
 
 
 class SHDevice(object):
@@ -53,8 +58,8 @@ class SHDevice(object):
         self.is_auth = True
         logger.info(TAG_DEVICE_CHANGE, msg=self.device_id + ' auth passed')
 
-
-_device_dict = dict()
+    def is_available(self):
+        return not self._sh_process.poll()
 
 
 def add_device(device_id):
@@ -93,3 +98,17 @@ def get_available_device(auth=None, to_string=None):
     if to_string:
         result_dict = {_: v.to_json() for _, v in _device_dict.items()}
     return result_dict
+
+
+def check_device():
+    while True:
+        for each_device_id, sh_device in _device_dict.items():
+            if not sh_device.is_available:
+                logger.info('{} process is down, trying to start'.format(each_device_id))
+                sh_device.startup()
+                time.sleep(5)
+        time.sleep(10)
+
+
+# device poll
+threading.Thread(target=check_device).start()
