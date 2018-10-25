@@ -75,6 +75,7 @@ public class APIServer extends NanoHTTPD {
     public APIServer(int port, UiDevice mDevice) throws IOException {
         super(port);
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        SHUtils.authDevice();
         this.mDevice = mDevice;
     }
 

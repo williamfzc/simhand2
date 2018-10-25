@@ -1,4 +1,5 @@
 import tornado.web
+from . import device_manager
 from .global_namespace import *
 
 
@@ -10,18 +11,26 @@ class BaseHandler(tornado.web.RequestHandler):
             'data': data or {},
             'message': message or {},
         }
-        logger.info('REQUEST END', code=code, data=data, message=message, request_url=request_url)
+        logger.info(TAG_REQUEST_END, code=code, data=data, message=message, request_url=request_url)
         self.finish(result_dict)
 
 
 class MainHandler(BaseHandler):
     def get(self):
-        self.end_with_json(FLAG_OK)
+        self.end_with_json(FLAG_HTTP_OK)
 
 
 class DeviceHandler(BaseHandler):
     def get(self):
-        self.end_with_json(FLAG_OK)
+        # get usable devices
+        device_dict = device_manager.get_available_device(auth=True, to_string=True)
+        self.end_with_json(FLAG_HTTP_OK, data=device_dict)
+
+    def post(self):
+        # confirm device connection
+        target_device_id = self.get_argument('deviceID', '')
+        device_manager.auth_device(target_device_id)
+        self.end_with_json(FLAG_HTTP_OK)
 
 
 __all__ = [

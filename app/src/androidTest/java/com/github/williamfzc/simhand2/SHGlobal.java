@@ -36,6 +36,16 @@ public class SHGlobal {
     public static Integer port;
     // IP address (PC which connected to android
     public static String parentIP;
+    public static String parentPort;
     // local ip
     public static String localIP;
+    // adb id
+    public static String deviceID;
+
+    public static String getPCServerAddress() {
+        if ("".equals(parentIP) || "".equals(parentPort)) {
+            return "";
+        }
+        return "http://" + parentIP + ":" + parentPort;
+    }
 }

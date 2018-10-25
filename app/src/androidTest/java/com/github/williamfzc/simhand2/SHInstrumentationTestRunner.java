@@ -39,11 +39,14 @@ public class SHInstrumentationTestRunner extends AndroidJUnitRunner {
     public void onCreate(Bundle arguments) {
         SHGlobal.port = parsePort(arguments);
         SHGlobal.parentIP = parsePCAddress(arguments);
+        SHGlobal.parentPort = parsePCServerPort(arguments);
+        SHGlobal.deviceID = parseDeviceID(arguments);
         SHGlobal.localIP = SHUtils.getLocalIP();
 
-        Log.i(TAG, "port: " + SHGlobal.port);
         Log.i(TAG, "local address: " + SHGlobal.localIP);
-        Log.i(TAG, "pc address: " + SHGlobal.parentIP);
+        Log.i(TAG, "local port: " + SHGlobal.port);
+        Log.i(TAG, "pc address: " + SHGlobal.getPCServerAddress());
+        Log.i(TAG, "device ID: " + SHGlobal.deviceID);
 
         super.onCreate(arguments);
     }
@@ -61,6 +64,24 @@ public class SHInstrumentationTestRunner extends AndroidJUnitRunner {
         String pcAddress = arguments.getString("pc");
         if (pcAddress != null && !"".equals(pcAddress)) {
             return pcAddress;
+        }
+        // default
+        return "";
+    }
+
+    private String parsePCServerPort(Bundle arguments) {
+        String port = arguments.getString("pcPort");
+        if (port != null && !"".equals(port)) {
+            return port;
+        }
+        // default
+        return "";
+    }
+
+    private String parseDeviceID(Bundle arguments) {
+        String deviceID = arguments.getString("deviceID");
+        if (deviceID != null && !"".equals(deviceID)) {
+            return deviceID;
         }
         // default
         return "";

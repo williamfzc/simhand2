@@ -23,6 +23,9 @@ SOFTWARE.
  */
 package com.github.williamfzc.simhand2;
 
+import android.util.Log;
+
+import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -30,7 +33,15 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class SHUtils {
+    public static String TAG = "SHUtils";
+
     public static String getParamFromMap(Map<String, String> targetMap, String targetFlag, String defaultFlag) {
         if (!targetMap.containsKey(targetFlag)) {
             return defaultFlag;
@@ -76,5 +87,38 @@ public class SHUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static boolean authDevice() {
+        String deviceID = SHGlobal.deviceID;
+        String pcAddress = SHGlobal.getPCServerAddress();
+        if ("".equals(deviceID) || "".equals(pcAddress)) {
+            Log.w(TAG, "device id and pc address can't be empty");
+            return false;
+        }
+
+        OkHttpClient client = new OkHttpClient();
+        FormBody formBody = new FormBody.Builder()
+                .add("deviceID", deviceID)
+                .build();
+        final Request request = new Request.Builder()
+                .url(pcAddress + "/device")
+                .post(formBody)
+                .build();
+        Call call = client.newCall(request);
+
+        Response resp = null;
+        try {
+            resp = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (resp != null && resp.isSuccessful()) {
+            // TODO should check the response content?
+            Log.i(TAG, "device auth successful");
+            return true;
+        }
+        Log.w(TAG, "device auth failed");
+        return false;
     }
 }
