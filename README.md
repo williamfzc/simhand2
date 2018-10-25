@@ -55,7 +55,8 @@ http://127.0.0.1:8080/api/action/click?widgetName=camera
 
 ## 相关项目
 
-[simhand2 manager](https://github.com/williamfzc/simhand2_manager)
+- [simhand2 manager with python](https://github.com/williamfzc/simhand2_pymanager)
+- [base simhand2 manager](https://github.com/williamfzc/simhand2_manager)
 
 ## API 文档
 
