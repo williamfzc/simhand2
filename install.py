@@ -3,6 +3,7 @@ import os
 import tempfile
 import structlog
 import subprocess
+import sys
 
 # TODO check if is installed ( need download or not )
 # TODO github release download failed sometimes
@@ -10,7 +11,10 @@ import subprocess
 GITHUB_BASE_DOWNLOAD_URL = r'https://github.com/williamfzc/simhand2/releases/download'
 
 # use github version tag, eg: v0.1.0
-TARGET_VERSION = r'v0.1.0'
+TARGET_VERSION = r'v0.1.1'
+
+# DEVICE
+DEVICE_ID = ''
 
 ANDROID_TEMP_DIR_PATH = '/data/local/tmp'
 MAIN_APP_NAME = r'app-debug.apk'
@@ -34,7 +38,7 @@ def download_resource(target_url, file_obj):
 
 
 def push_device(file_path, target_file_path):
-    base_cmd = ['adb', 'push', file_path, target_file_path]
+    base_cmd = ['adb', '-s', DEVICE_ID, 'push', file_path, target_file_path]
     logger.info('EXEC CMD', cmd=base_cmd)
     return_code = subprocess.call(base_cmd)
     if return_code:
@@ -43,7 +47,7 @@ def push_device(file_path, target_file_path):
 
 
 def install(target_apk_path):
-    base_cmd = ['adb', 'shell', 'pm', 'install', '-t', '-r', target_apk_path]
+    base_cmd = ['adb', '-s', DEVICE_ID, 'shell', 'pm', 'install', '-t', '-r', target_apk_path]
     logger.info('EXEC CMD', cmd=base_cmd)
     return_code = subprocess.call(base_cmd)
     if return_code:
@@ -52,7 +56,7 @@ def install(target_apk_path):
 
 
 def start_server():
-    base_cmd = ['adb', 'shell', 'am', 'instrument', '-w', '-r', '-e', 'debug', 'false', '-e', 'class',
+    base_cmd = ['adb', '-s', DEVICE_ID, 'shell', 'am', 'instrument', '-w', '-r', '-e', 'debug', 'false', '-e', 'class',
                 'com.github.williamfzc.simhand2.StubTestCase',
                 'com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner']
     process = subprocess.Popen(base_cmd)
@@ -67,6 +71,8 @@ def dl_and_push_and_install(dl_url, target_path):
 
 
 if __name__ == '__main__':
+    DEVICE_ID = sys.argv[1]
+
     dl_and_push_and_install(MAIN_APP_DL_URL, MAIN_APP_TARGET_PATH)
     dl_and_push_and_install(TEST_APP_DL_URL, TEST_APP_TARGET_PATH)
 
