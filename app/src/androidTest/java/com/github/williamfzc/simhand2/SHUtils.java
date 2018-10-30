@@ -100,6 +100,7 @@ public class SHUtils {
         OkHttpClient client = new OkHttpClient();
         FormBody formBody = new FormBody.Builder()
                 .add("deviceID", deviceID)
+                .add("deviceIP", SHGlobal.localIP)
                 .build();
         final Request request = new Request.Builder()
                 .url(pcAddress + "/device")
