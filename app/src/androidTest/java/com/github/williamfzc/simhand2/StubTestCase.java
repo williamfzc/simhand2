@@ -49,14 +49,12 @@ import java.io.IOException;
 @SdkSuppress(minSdkVersion = 18)
 public class StubTestCase {
     private static final String TAG = "StubTestCase";
-    private int serverPort;
-    private String parentIP;
     private UiDevice mDevice;
     private APIServer mServer;
 
     private boolean runServer(UiDevice targetDevice) {
         try {
-            mServer = new APIServer(serverPort, targetDevice);
+            mServer = new APIServer(SHGlobal.port, targetDevice);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -92,7 +90,7 @@ public class StubTestCase {
 
         // startup server
         if (runServer(mDevice)) {
-            Log.i(TAG, "simhand already started on " + serverPort);
+            Log.i(TAG, "simhand already started on " + SHGlobal.port);
         } else {
             Log.e(TAG, "simhand start failed");
             throw new RuntimeException("simhand start up failed");
