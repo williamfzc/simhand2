@@ -54,12 +54,11 @@ public class ExistActionHandler extends BaseActionHandler {
         } else {
             targetElement = Selector.findElementByText(mDevice, widgetName);
         }
-        try {
-            targetElement.exists();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return false;
+
+        // if not existed, try to find with desc
+        if (targetElement == null) {
+            targetElement = Selector.findElementByDesc(mDevice, widgetName);
         }
-        return true;
+        return targetElement != null;
     }
 }

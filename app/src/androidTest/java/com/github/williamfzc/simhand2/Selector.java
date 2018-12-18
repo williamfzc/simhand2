@@ -49,4 +49,13 @@ public class Selector {
         }
         return findElementByText(mDevice, targetStr);
     }
+
+    public static UiObject findElementByDesc(UiDevice mDevice, String targetStr) {
+        UiObject targetObject = mDevice.findObject(new UiSelector().descriptionContains(targetStr));
+        if (!targetObject.exists()) {
+            Log.w(TAG, "object " + targetStr + " not found");
+            return null;
+        }
+        return targetObject;
+    }
 }

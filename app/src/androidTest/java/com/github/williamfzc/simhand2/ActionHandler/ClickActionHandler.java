@@ -55,6 +55,15 @@ public class ClickActionHandler extends BaseActionHandler {
         } else {
             targetElement = Selector.findElementByText(mDevice, widgetName);
         }
+
+        // if not existed, try to find with desc
+        if (targetElement == null) {
+            targetElement = Selector.findElementByDesc(mDevice, widgetName);
+        }
+
+        if (targetElement == null) {
+            return false;
+        }
         return clickElement(targetElement);
     }
 
