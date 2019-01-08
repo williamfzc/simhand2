@@ -58,4 +58,13 @@ public class Selector {
         }
         return targetObject;
     }
+
+    public static UiObject findElementById(UiDevice mDevice, String targetStr) {
+        UiObject targetObject = mDevice.findObject(new UiSelector().resourceId(targetStr));
+        if (!targetObject.exists()) {
+            Log.w(TAG, "object " + targetStr + " not found");
+            return null;
+        }
+        return targetObject;
+    }
 }

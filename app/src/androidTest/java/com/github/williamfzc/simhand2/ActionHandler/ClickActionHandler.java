@@ -41,6 +41,7 @@ public class ClickActionHandler extends BaseActionHandler {
         Log.i(TAG, "on device: " + mDevice.getProductName());
     }
 
+    // TODO 这个设计完全不合理 需要重构
     public boolean apply(Map<String, String> paramsMap) {
         initParams(paramsMap);
         UiObject targetElement;
@@ -59,6 +60,10 @@ public class ClickActionHandler extends BaseActionHandler {
         // if not existed, try to find with desc
         if (targetElement == null) {
             targetElement = Selector.findElementByDesc(mDevice, widgetName);
+        }
+        // finally find with id
+        if (targetElement == null) {
+            targetElement = Selector.findElementById(mDevice, widgetName);
         }
 
         if (targetElement == null) {
