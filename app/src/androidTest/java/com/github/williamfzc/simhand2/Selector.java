@@ -32,6 +32,7 @@ public class Selector {
     private static final String TAG = "UISelector";
 
     public static UiObject findElementByText(UiDevice mDevice, String targetStr) {
+        Log.i(TAG, "find with text: " + targetStr);
         UiObject targetObject = mDevice.findObject(new UiSelector().text(targetStr));
         if (!targetObject.exists()) {
             Log.w(TAG, "object " + targetStr + " not found");
@@ -40,17 +41,8 @@ public class Selector {
         return targetObject;
     }
 
-    public static UiObject waitElementByText(UiDevice mDevice, String targetStr, Integer delayTime) {
-        try {
-            Thread.sleep(delayTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return findElementByText(mDevice, targetStr);
-    }
-
     public static UiObject findElementByDesc(UiDevice mDevice, String targetStr) {
+        Log.i(TAG, "find with desc: " + targetStr);
         UiObject targetObject = mDevice.findObject(new UiSelector().descriptionContains(targetStr));
         if (!targetObject.exists()) {
             Log.w(TAG, "object " + targetStr + " not found");
@@ -60,6 +52,7 @@ public class Selector {
     }
 
     public static UiObject findElementById(UiDevice mDevice, String targetStr) {
+        Log.i(TAG, "find with id: " + targetStr);
         UiObject targetObject = mDevice.findObject(new UiSelector().resourceId(targetStr));
         if (!targetObject.exists()) {
             Log.w(TAG, "object " + targetStr + " not found");

@@ -25,18 +25,24 @@ package com.github.williamfzc.simhand2.ActionHandler;
 
 
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.util.Log;
 
 import com.github.williamfzc.simhand2.SHUtils;
+import com.github.williamfzc.simhand2.Selector;
 
 import java.util.Map;
 
 public abstract class BaseActionHandler {
+    private static String TAG = "BaseActionHandler";
+
     UiDevice mDevice;
 
     // all possible args
     String widgetName;
     String delayTime;
     String actionName;
+    String selector;
 
     BaseActionHandler(UiDevice mDevice) {
         this.mDevice = mDevice;
@@ -46,6 +52,38 @@ public abstract class BaseActionHandler {
         this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetName", "");
         this.delayTime = SHUtils.getParamFromMap(targetMap, "delayTime", "");
         this.actionName = SHUtils.getParamFromMap(targetMap, "actionName", "");
+        this.selector = SHUtils.getParamFromMap(targetMap, "selector", "");
+    }
+
+    UiObject findElement() {
+        UiObject targetElement;
+
+        // invalid widget name
+        if ("".equals(widgetName)) {
+            return null;
+        }
+
+        // default selector: text
+        if ("".equals(selector)) {
+            selector = "text";
+        }
+
+        switch (selector) {
+            case "id":
+                targetElement = Selector.findElementById(mDevice, widgetName);
+                break;
+            case "text":
+                targetElement = Selector.findElementByText(mDevice, widgetName);
+                break;
+            case "desc":
+                targetElement = Selector.findElementByDesc(mDevice, widgetName);
+                break;
+            default:
+                Log.w(TAG, "unexpected selector: " + selector);
+                targetElement = Selector.findElementByText(mDevice, widgetName);
+        }
+
+        return targetElement;
     }
 
     public abstract boolean apply(Map<String, String> paramsMap);
