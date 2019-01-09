@@ -1,13 +1,12 @@
 # simhand2
 
-> UI OPERATOR SERVER ON ANDROID
+> Ui operator on Android, via HTTP request.
 
 ## 原理
 
 - 基于uiautomator
-- 通过提供的restful API，直接通过http请求操作设备
-
-View [RoadMap](roadmap.md) for detail.
+- 通过提供易于使用的API，**直接**通过http请求操作设备，不再通过pc
+- 实现类似[appium-uiautomator2-server](https://github.com/appium/appium-uiautomator2-server)
 
 ## 安装
 
@@ -16,7 +15,7 @@ View [RoadMap](roadmap.md) for detail.
 - 连接设备
 - 运行`install.py`
 - 确保python3已安装，并安装相关依赖包
-- 脚本会将apk都安装好并启动服务
+- 脚本会将apk都安装好
 
 ### 手动
 
@@ -28,6 +27,8 @@ View [RoadMap](roadmap.md) for detail.
 adb install -t -r app-debug.apk
 adb install -t -r app-debug-androidTest.apk
 ```
+
+## 启动
 
 安装后需要自行启动：
 
@@ -44,50 +45,34 @@ $ adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc
 
 ```
 // ip 地址根据实际修改
-http://192.168.0.10:8080/api/action/click?widgetName=camera
+http://192.168.0.10:8080/api/action/click?widgetName=camera&selector=text
 ```
 
 当然，它也能够被其他应用从内部调用：
 
 ```
-http://127.0.0.1:8080/api/action/click?widgetName=camera
+http://127.0.0.1:8080/api/action/click?widgetName=camera&selector=text
 ```
 
-## 相关项目
-
-- [simhand2 manager with python](https://github.com/williamfzc/simhand2_pymanager)
-- [base simhand2 manager](https://github.com/williamfzc/simhand2_manager)
+> 推荐使用 postman 之类的工具进行调试。
 
 ## API 文档
 
-### 截图 (get image/png)
+目前着重于支持最常用的几个API。
 
-```bash
-http://127.0.0.1:8080/api/screenshot
+### 定位方式
+
+目前支持通过id、text、desc定位元素。
+
+```
+http://127.0.0.1:8080/api/action/click?widgetName=com.github.williamfzc.demo:id/button2&selector=id
 ```
 
-### 操作
+### 动作类型
 
-#### 点击
+目前支持 click/exist 操作，以及一些简单的系统操作（待拓展）。
 
-click element which text == 'camera'
-
-```bash
-http://127.0.0.1:8080/api/action/click?widgetName=camera
 ```
-
-#### 存在
-
-check if element which text == 'camera' existed
-
-```bash
-http://127.0.0.1:8080/api/action/exist?widgetName=camera
+http://127.0.0.1:8080/api/action/click?widgetName=com.github.williamfzc.demo:id/button2&selector=id
+http://127.0.0.1:8080/api/action/exist?widgetName=com.github.williamfzc.demo:id/button2&selector=id
 ```
-
-#### 系统
-
-```bash
-http://127.0.0.1:8080/api/action/system?actionName=turnOnAirplaneMode
-```
-
-...

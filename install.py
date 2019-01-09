@@ -1,81 +1,37 @@
-import requests
-import os
-import tempfile
-import structlog
+from pyatool import PYAToolkit
+from whenconnect import when_connect, when_disconnect
 import subprocess
 import sys
 
-# TODO check if is installed ( need download or not )
-# TODO github release download failed sometimes
 
-GITHUB_BASE_DOWNLOAD_URL = r'https://github.com/williamfzc/simhand2/releases/download'
+VERSION = 'v0.1.6'
+BASE_URL = r'https://github.com/williamfzc/simhand2/releases/download/{}/{}'
+TEST_APK = r'app-debug-androidTest.apk'
+MAIN_APK = r'app-debug.apk'
 
-# use github version tag, eg: v0.1.0
-TARGET_VERSION = r'v0.1.1'
+TEST_DL_URL = BASE_URL.format(VERSION, TEST_APK)
+MAIN_DL_URL = BASE_URL.format(VERSION, MAIN_APK)
 
-# DEVICE
-DEVICE_ID = ''
+process_dict = {}
 
-ANDROID_TEMP_DIR_PATH = '/data/local/tmp'
-MAIN_APP_NAME = r'app-debug.apk'
-TEST_APP_NAME = r'app-debug-androidTest.apk'
+def install_sh(device_id):
+    print('install simhand2 in {}'.format(device_id))
+    pya = PYAToolkit(device_id)
+    pya.install_from(url=TEST_DL_URL)
+    pya.install_from(url=MAIN_DL_URL)
+    print('install simhand2 ok in {}'.format(device_id))
+    new_process = subprocess.Popen("adb shell am instrument -w -r   -e debug false -e class 'com.github.williamfzc.simhand2.StubTestCase' com.github.williamfzc.simhand2.test/com.github.williamfzc.simhand2.SHInstrumentationTestRunner")
+    process_dict[device_id] = new_process
 
-MAIN_APP_DL_URL = '{}/{}/{}'.format(GITHUB_BASE_DOWNLOAD_URL, TARGET_VERSION, MAIN_APP_NAME)
-TEST_APP_DL_URL = '{}/{}/{}'.format(GITHUB_BASE_DOWNLOAD_URL, TARGET_VERSION, TEST_APP_NAME)
-MAIN_APP_TARGET_PATH = '{}/{}'.format(ANDROID_TEMP_DIR_PATH, MAIN_APP_NAME)
-TEST_APP_TARGET_PATH = '{}/{}'.format(ANDROID_TEMP_DIR_PATH, TEST_APP_NAME)
-
-TEMP_FILE_PATH = os.path.join(os.path.dirname(__file__), 'tempfile.apk')
-
-logger = structlog.get_logger()
-
-
-def download_resource(target_url, file_obj):
-    logger.info('START DOWNLOAD', url=target_url, to=file_obj.name)
-    r = requests.get(target_url)
-    file_obj.write(r.content)
-    logger.info('DOWNLOAD OK', url=target_url)
+    new_process.kill()
+    sys.exit()
 
 
-def push_device(file_path, target_file_path):
-    base_cmd = ['adb', '-s', DEVICE_ID, 'push', file_path, target_file_path]
-    logger.info('EXEC CMD', cmd=base_cmd)
-    return_code = subprocess.call(base_cmd)
-    if return_code:
-        return False
-    return True
+def stop_simhand(device_id):
+    p = process_dict[device_id]
+    p.kill()
+    del process_dict[device_id]
 
 
-def install(target_apk_path):
-    base_cmd = ['adb', '-s', DEVICE_ID, 'shell', 'pm', 'install', '-t', '-r', target_apk_path]
-    logger.info('EXEC CMD', cmd=base_cmd)
-    return_code = subprocess.call(base_cmd)
-    if return_code:
-        return False
-    return True
-
-
-def start_server():
-    base_cmd = ['adb', '-s', DEVICE_ID, 'shell', 'am', 'instrument', '-w', '-r', '-e', 'debug', 'false', '-e', 'class',
-                'com.github.williamfzc.simhand2.StubTestCase',
-                'com.github.williamfzc.simhand2.test/android.support.test.runner.AndroidJUnitRunner']
-    process = subprocess.Popen(base_cmd)
-    return process
-
-
-def dl_and_push_and_install(dl_url, target_path):
-    with open(TEMP_FILE_PATH, 'wb+') as temp:
-        download_resource(dl_url, temp)
-    push_device(temp.name, target_path)
-    install(target_path)
-
-
-if __name__ == '__main__':
-    DEVICE_ID = sys.argv[1]
-
-    dl_and_push_and_install(MAIN_APP_DL_URL, MAIN_APP_TARGET_PATH)
-    dl_and_push_and_install(TEST_APP_DL_URL, TEST_APP_TARGET_PATH)
-
-    # should never shut down
-    server_process = start_server()
-    server_process.wait(timeout=3600)
+when_connect(device='all', do=install_sh)
+when_disconnect(device='all', do=stop_simhand)
