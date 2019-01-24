@@ -70,9 +70,26 @@ http://127.0.0.1:8080/api/action/click?widgetName=com.github.williamfzc.demo:id/
 
 ### 动作类型
 
-目前支持 click/exist 操作，以及一些简单的系统操作（待拓展）。
+通过id定位元素，并点击：
 
 ```
 http://127.0.0.1:8080/api/action/click?widgetName=com.github.williamfzc.demo:id/button2&selector=id
+```
+
+也可以只是判断是否存在：
+
+```
 http://127.0.0.1:8080/api/action/exist?widgetName=com.github.williamfzc.demo:id/button2&selector=id
+```
+
+当然不只是能通过id，也可以通过text：
+
+```
+http://127.0.0.1:8080/api/action/click?widgetName=wechat&selector=text
+```
+
+系统操作（其他系统操作可以参见[代码](./app/src/androidTest/java/com/github/williamfzc/simhand2/ActionHandler/SystemActionHandler.java)：
+
+```
+http://127.0.0.1:8080/api/action/system?actionName=pressBack
 ```
