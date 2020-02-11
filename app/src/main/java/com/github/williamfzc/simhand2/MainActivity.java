@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // show if is ready
-        Toast.makeText(this, "simhand is working :)", Toast.LENGTH_SHORT).show();
-
         // TODO: control the server with cmd?
 //        String[] cmdList = {"su", "mkdir", "/sdcard/testonlyfzc", "\n"};
 //        ProcessBuilder processBuilder = new ProcessBuilder(cmdList);
