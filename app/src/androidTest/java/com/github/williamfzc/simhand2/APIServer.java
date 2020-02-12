@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.williamfzc.simhand2.ActionHandler.ClickActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.ExistActionHandler;
 import com.github.williamfzc.simhand2.ActionHandler.SystemActionHandler;
+import com.github.williamfzc.simhand2.ActionHandler.TouchActionHandler;
 
 import java.io.IOException;
 import java.util.Map;
@@ -117,6 +118,15 @@ public class APIServer extends NanoHTTPD {
                         SHUtils.getResponseCode(actionResult),
                         "" + actionResult,
                         "system"
+                ).toJsonString();
+                break;
+
+            case "/api/action/touch":
+                actionResult = new TouchActionHandler(mDevice).apply(params);
+                respStr = new SHResponse(
+                        SHUtils.getResponseCode(actionResult),
+                        "" + actionResult,
+                        "touch"
                 ).toJsonString();
                 break;
 

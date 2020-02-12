@@ -34,7 +34,7 @@ import com.github.williamfzc.simhand2.Selector;
 import java.util.Map;
 
 public abstract class BaseActionHandler {
-    private static String TAG = "BaseActionHandler";
+    private static final String TAG = "BaseActionHandler";
 
     UiDevice mDevice;
 
@@ -43,16 +43,18 @@ public abstract class BaseActionHandler {
     String delayTime;
     String actionName;
     String selector;
+    String points;
 
     BaseActionHandler(UiDevice mDevice) {
         this.mDevice = mDevice;
     }
 
     void initParams(Map<String, String> targetMap) {
-        this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetName", "");
+        this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetNapome", "");
         this.delayTime = SHUtils.getParamFromMap(targetMap, "delayTime", "");
         this.actionName = SHUtils.getParamFromMap(targetMap, "actionName", "");
         this.selector = SHUtils.getParamFromMap(targetMap, "selector", "");
+        this.points = SHUtils.getParamFromMap(targetMap, "points", "");
     }
 
     UiObject findElement() {
