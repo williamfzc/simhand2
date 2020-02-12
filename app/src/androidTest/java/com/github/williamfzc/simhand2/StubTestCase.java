@@ -84,9 +84,9 @@ public class StubTestCase {
             e.printStackTrace();
         }
 
-        // Start main page
-        launchFront();
-        mDevice.pressHome();
+//        // Start main page
+//        launchFront();
+//        mDevice.pressHome();
 
         // startup server
         if (runServer(mDevice)) {
