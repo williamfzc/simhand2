@@ -93,3 +93,17 @@ http://127.0.0.1:8080/api/action/click?widgetName=wechat&selector=text
 ```
 http://127.0.0.1:8080/api/action/system?actionName=pressBack
 ```
+
+控件无关的界面操作（滑动与点击等）：
+
+点击（支持单点与多点，以|分隔）
+
+```
+http://127.0.0.1:8080/api/action/touch?actionName=click&points=100,100|200,200
+```
+
+滑动（只支持两个点）
+
+```
+http://127.0.0.1:8080/api/action/touch?actionName=swipe&points=100,100|200,200
+```
