@@ -53,6 +53,12 @@ public class SystemActionHandler extends BaseActionHandler {
                 case "turnOffAirplaneMode":
                     execResult = switchAirplaneMode(false);
                     break;
+                case "turnOnBluetooth":
+                    execResult = switchBluetoothMode(true);
+                    break;
+                case "turnOffBluetooth":
+                    execResult = switchBluetoothMode(false);
+                    break;
                 case "pressBack":
                     execResult = pressButton("back").toString();
                     break;
@@ -97,6 +103,16 @@ public class SystemActionHandler extends BaseActionHandler {
         execResult = mDevice.executeShellCommand("settings put global airplane_mode_on " + modeCode);
         execResult += mDevice.executeShellCommand("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state " + stateFlag);
         return execResult;
+    }
+
+    private String switchBluetoothMode(boolean on) throws IOException {
+        String stateFlag;
+        if (on) {
+            stateFlag = "enable";
+        } else {
+            stateFlag = "disable";
+        }
+        return mDevice.executeShellCommand("svc bluetooth " + stateFlag);
     }
 
     private Boolean pressButtonByCode(Integer keyCode) {
