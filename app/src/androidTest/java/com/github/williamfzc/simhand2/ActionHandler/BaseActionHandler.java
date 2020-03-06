@@ -50,7 +50,7 @@ public abstract class BaseActionHandler {
     }
 
     void initParams(Map<String, String> targetMap) {
-        this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetNapome", "");
+        this.widgetName = SHUtils.getParamFromMap(targetMap, "widgetName", "");
         this.delayTime = SHUtils.getParamFromMap(targetMap, "delayTime", "");
         this.actionName = SHUtils.getParamFromMap(targetMap, "actionName", "");
         this.selector = SHUtils.getParamFromMap(targetMap, "selector", "");
